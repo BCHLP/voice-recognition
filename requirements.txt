@@ -1,0 +1,11 @@
+numpy
+librosa
+scikit-learn
+matplotlib
+scipy
+
+torchaudio
+pyannote.audio
+python-dotenv
+flask
+PyJWT
