@@ -9,3 +9,5 @@ pyannote.audio
 python-dotenv
 flask
 PyJWT
+pydub
+pytest

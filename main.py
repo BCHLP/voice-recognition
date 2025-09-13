@@ -4,9 +4,11 @@ import sys
 from flask import Flask, request, jsonify
 from werkzeug.middleware.proxy_fix import ProxyFix
 from VoiceFingerprinter import VoiceFingerprinter
+from AudioConversion import AudioConversion
 import jwt
 from functools import wraps
 import base64
+import numpy as np
 
 # Create a Flask application instance
 app = Flask(__name__)
@@ -57,6 +59,7 @@ def verify_token(token):
 
 @app.route("/voice/register", methods=['POST'])
 def generate():
+    global fingerprinter, converter
     if request.method == 'POST':
 
         # Check if data is JSON
@@ -67,17 +70,22 @@ def generate():
                 return {"error": "No audio specified"}
 
             audio = data['audio']
-
-        # Check if data is form data
-        elif 'audio' in request.form:
-            audio = request.form['audio']
         else:
-            return {"error": "Please POST a base64 encoded audio"}
+            return {"error": "Please POST a base64 encoded audio", "post": request.form}
 
-        return {"fingerprint": fingerprinter.generate_fingerprint(audio)}
+        bytes = converter.base64_to_audio_bytes(audio)
+        wav = converter.convert_webm_to_wav(bytes)
+        fingerprint = fingerprinter.generate_fingerprint(wav)
+        fingerprint_bytes = fingerprint.tobytes()
+        embeddings = base64.b64encode(fingerprint_bytes)
+        encoded_string = embeddings.decode('utf-8')
+        print("embeddings shape", fingerprint.shape) # 1, 192
+        print("embeddings type", fingerprint.dtype) # 1, 192
+        return {"embeddings": encoded_string}
 
 @app.route("/voice/compare", methods=['POST'])
 def compare():
+    global fingerprinter, converter
     if request.method == 'POST':
 
         # Check if data is JSON
@@ -94,14 +102,25 @@ def compare():
             audio = data['audio']
             embeddings = data['embeddings']
 
-        # Check if data is form data
-        elif 'audio' in request.form and 'embeddings' in request.form:
-            audio = request.form['audio']
-            embeddings = request.form['embeddings']
         else:
             return {"error": "Please POST a base64 encoded audio and embeddings"}
 
-        return {"matches": fingerprinter.compare_audio(embeddings, audio)}
+        bytes = converter.base64_to_audio_bytes(audio)
+        wav = converter.convert_webm_to_wav(bytes)
+
+        # To decode back to a NumPy array
+        decoded_bytes = base64.b64decode(embeddings)
+
+        # Reconstruct the NumPy array, ensuring correct dtype and shape
+        decoded_array = np.frombuffer(decoded_bytes, dtype=np.float32).reshape(1, 192)
+
+        is_authenticated = fingerprinter.compare_audio(wav, decoded_array)
+        if is_authenticated:
+            print("Authenticated")
+        else:
+            print("Not authenticated")
+
+        return {"authenticated": is_authenticated}
 
     # sarah1 = fingerprinter.generate_fingerprint("/Users/davidbelle/Projects/uni/my-voice-confirms/sarah1.wav")
     # dave4 = fingerprinter.generate_fingerprint("/Users/davidbelle/Projects/uni/my-voice-confirms/dave4.wav")
@@ -132,6 +151,8 @@ def get_cmd_args():
 
 if __name__ == '__main__':
     load_dotenv()  # Load environment variables from .env file
+    fingerprinter = VoiceFingerprinter(os.getenv("HUGGING_FACE_API_KEY"))
+    converter = AudioConversion()
     args = get_cmd_args()
     app.run(host='0.0.0.0', port=args['port'])
 
