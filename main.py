@@ -114,13 +114,13 @@ def compare():
         # Reconstruct the NumPy array, ensuring correct dtype and shape
         decoded_array = np.frombuffer(decoded_bytes, dtype=np.float32).reshape(1, 192)
 
-        is_authenticated = fingerprinter.compare_audio(wav, decoded_array)
-        if is_authenticated:
+        response = fingerprinter.compare_audio(wav, decoded_array)
+        if response['is_match']:
             print("Authenticated")
         else:
             print("Not authenticated")
 
-        return {"authenticated": is_authenticated}
+        return {"authenticated": response['is_match']}
 
     # sarah1 = fingerprinter.generate_fingerprint("/Users/davidbelle/Projects/uni/my-voice-confirms/sarah1.wav")
     # dave4 = fingerprinter.generate_fingerprint("/Users/davidbelle/Projects/uni/my-voice-confirms/dave4.wav")
