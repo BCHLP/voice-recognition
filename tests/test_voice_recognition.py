@@ -25,7 +25,136 @@ class TestBasicOperations:
         load_dotenv()  # Load environment variables from .env file
         fingerprinter = VoiceFingerprinter(os.getenv("HUGGING_FACE_API_KEY"))
         fingerprint = fingerprinter.generate_fingerprint(wav1)
-        assert fingerprinter.compare_audio(wav2, fingerprint) is True
+        authenticated = fingerprinter.compare_audio(wav2, fingerprint)
+
+        assert authenticated is True
+
+    def test_ballen_authenticates(self):
+        """Test addition with positive numbers."""
+        wav1 = self._read_wav_as_bytes_simple('./tests/resources/ballen-1.wav')
+        wav2 = self._read_wav_as_bytes_simple('./tests/resources/ballen-2.wav')
+        assert wav1 is not None
+        assert wav2 is not None
+
+        load_dotenv()  # Load environment variables from .env file
+        fingerprinter = VoiceFingerprinter(os.getenv("HUGGING_FACE_API_KEY"))
+        fingerprint = fingerprinter.generate_fingerprint(wav1)
+        authenticated = fingerprinter.compare_audio(wav2, fingerprint)
+
+        assert authenticated is True
+
+    def test_casefile_authenticates(self):
+        """Test addition with positive numbers."""
+        wav1 = self._read_wav_as_bytes_simple('./tests/resources/casefile-1.wav')
+        wav2 = self._read_wav_as_bytes_simple('./tests/resources/casefile-2.wav')
+        assert wav1 is not None
+        assert wav2 is not None
+
+        load_dotenv()  # Load environment variables from .env file
+        fingerprinter = VoiceFingerprinter(os.getenv("HUGGING_FACE_API_KEY"))
+        fingerprint = fingerprinter.generate_fingerprint(wav1)
+        authenticated = fingerprinter.compare_audio(wav2, fingerprint)
+
+        assert authenticated is True
+
+    def test_hellenthomas_authenticates(self):
+        """Test addition with positive numbers."""
+        wav1 = self._read_wav_as_bytes_simple('./tests/resources/hellenthomas-1.wav')
+        wav2 = self._read_wav_as_bytes_simple('./tests/resources/hellenthomas-2.wav')
+        assert wav1 is not None
+        assert wav2 is not None
+
+        load_dotenv()  # Load environment variables from .env file
+        fingerprinter = VoiceFingerprinter(os.getenv("HUGGING_FACE_API_KEY"))
+        fingerprint = fingerprinter.generate_fingerprint(wav1)
+        authenticated = fingerprinter.compare_audio(wav2, fingerprint)
+
+        assert authenticated is True
+
+    def test_ijustine_authenticates(self):
+        """Test addition with positive numbers."""
+        wav1 = self._read_wav_as_bytes_simple('./tests/resources/ijustine-1.wav')
+        wav2 = self._read_wav_as_bytes_simple('./tests/resources/ijustine-2.wav')
+        assert wav1 is not None
+        assert wav2 is not None
+
+        load_dotenv()  # Load environment variables from .env file
+        fingerprinter = VoiceFingerprinter(os.getenv("HUGGING_FACE_API_KEY"))
+        fingerprint = fingerprinter.generate_fingerprint(wav1)
+        authenticated = fingerprinter.compare_audio(wav2, fingerprint)
+
+        assert authenticated is True
+
+    def test_laracasts_authenticates(self):
+        """Test addition with positive numbers."""
+        wav1 = self._read_wav_as_bytes_simple('./tests/resources/laracasts-1.wav')
+        wav2 = self._read_wav_as_bytes_simple('./tests/resources/laracasts-2.wav')
+        assert wav1 is not None
+        assert wav2 is not None
+
+        load_dotenv()  # Load environment variables from .env file
+        fingerprinter = VoiceFingerprinter(os.getenv("HUGGING_FACE_API_KEY"))
+        fingerprint = fingerprinter.generate_fingerprint(wav1)
+        authenticated = fingerprinter.compare_audio(wav2, fingerprint)
+
+        assert authenticated is True
+
+    def test_lauriewired_authenticates(self):
+        """Test addition with positive numbers."""
+        wav1 = self._read_wav_as_bytes_simple('./tests/resources/lauriewired-1.wav')
+        wav2 = self._read_wav_as_bytes_simple('./tests/resources/lauriewired-2.wav')
+        assert wav1 is not None
+        assert wav2 is not None
+
+        load_dotenv()  # Load environment variables from .env file
+        fingerprinter = VoiceFingerprinter(os.getenv("HUGGING_FACE_API_KEY"))
+        fingerprint = fingerprinter.generate_fingerprint(wav1)
+        authenticated = fingerprinter.compare_audio(wav2, fingerprint)
+
+        assert authenticated is True
+
+    def test_physicsgirl_authenticates(self):
+        """Test addition with positive numbers."""
+        wav1 = self._read_wav_as_bytes_simple('./tests/resources/physicsgirl-1.wav')
+        wav2 = self._read_wav_as_bytes_simple('./tests/resources/physicsgirl-2.wav')
+        assert wav1 is not None
+        assert wav2 is not None
+
+        load_dotenv()  # Load environment variables from .env file
+        fingerprinter = VoiceFingerprinter(os.getenv("HUGGING_FACE_API_KEY"))
+        fingerprint = fingerprinter.generate_fingerprint(wav1)
+        authenticated = fingerprinter.compare_audio(wav2, fingerprint)
+
+        assert authenticated is True
+
+    def test_redhanded_authenticates(self):
+        """Test addition with positive numbers."""
+        wav1 = self._read_wav_as_bytes_simple('./tests/resources/redhanded-1.wav')
+        wav2 = self._read_wav_as_bytes_simple('./tests/resources/redhanded-2.wav')
+        assert wav1 is not None
+        assert wav2 is not None
+
+        load_dotenv()  # Load environment variables from .env file
+        fingerprinter = VoiceFingerprinter(os.getenv("HUGGING_FACE_API_KEY"))
+        fingerprint = fingerprinter.generate_fingerprint(wav1)
+        authenticated = fingerprinter.compare_audio(wav2, fingerprint)
+
+        assert authenticated is True
+
+    def test_truecrime_authenticates(self):
+        """Test addition with positive numbers."""
+        wav1 = self._read_wav_as_bytes_simple('./tests/resources/truecrime-1.wav')
+        wav2 = self._read_wav_as_bytes_simple('./tests/resources/truecrime-2.wav')
+        assert wav1 is not None
+        assert wav2 is not None
+
+        load_dotenv()  # Load environment variables from .env file
+        fingerprinter = VoiceFingerprinter(os.getenv("HUGGING_FACE_API_KEY"))
+        fingerprint = fingerprinter.generate_fingerprint(wav1)
+        authenticated = fingerprinter.compare_audio(wav2, fingerprint)
+
+        assert authenticated is True
+
 
     def test_others_fail_andrewrule_authentication(self):
         """Test addition with positive numbers."""
@@ -39,6 +168,7 @@ class TestBasicOperations:
         physicsgirl = self._read_wav_as_bytes_simple('./tests/resources/physicsgirl-1.wav')
         redhanded = self._read_wav_as_bytes_simple('./tests/resources/redhanded-1.wav')
         truecrime = self._read_wav_as_bytes_simple('./tests/resources/truecrime-1.wav')
+
         assert andrew is not None
         assert ballen is not None
         assert casefile is not None

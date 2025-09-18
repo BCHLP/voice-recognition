@@ -37,13 +37,9 @@ class VoiceFingerprinter:
         wav_bytes = io.BytesIO(wav_buffer)
 
         segments = self.diarization(wav_bytes)
-        print("segments", segments)
-
-        # Reset the file pointer to the beginning before loading again
-        # wav_buffer.seek(0)
 
         # Set a threshold for similarity scores to determine when a match is considered successful
-        threshold = 0.8
+        threshold = 0.4
 
         waveform, sample_rate = torchaudio.load(wav_bytes)
 
@@ -54,21 +50,12 @@ class VoiceFingerprinter:
         for segment, label, confidence in segments.itertracks(yield_label=True):
             start_time, end_time = segment.start, segment.end
 
-            # # Load the specific audio segment from the meeting recording
-            # waveform, sample_rate = torchaudio.load(wav_bytes, num_frames=int((end_time-start_time)*sample_rate),
-            #                                         frame_offset=int(start_time*sample_rate))
-
             # Calculate sample indices
             start_sample = int(start_time * sample_rate)
             end_sample = int(end_time * sample_rate)
             #
             # # Slice the already loaded waveform (much faster than loading from disk)
             segment_waveform = waveform[:, start_sample:end_sample]
-            torchaudio.save('/Users/davidbelle/Projects/uni/VoiceRecognition/myfile.wav',
-                            segment_waveform,
-                            sample_rate)
-
-
 
             # Skip segments that are too short (less than 0.5 seconds)
             if segment_waveform.shape[1] < sample_rate * 0.5:
@@ -78,10 +65,10 @@ class VoiceFingerprinter:
             waveform = waveform.to(self.device)
 
             # Extract the speaker embedding from the audio segment
-            embedding = self.classifier.encode_batch(waveform).squeeze(1).cpu().numpy()
+            embedding = self.classifier.encode_batch(segment_waveform).squeeze(1).cpu().numpy()
 
 
-            recognized_speaker_id = None
+
 
             # Compare the segment's embedding to each known speaker's embedding using cosine distance
 
@@ -91,10 +78,12 @@ class VoiceFingerprinter:
                 print("min_distance_candidate", min_distance_candidate)
                 print("min_distance", min_distance)
                 min_distance = min_distance_candidate
+            else:
+                print("Not a match:"+str(min_distance_candidate))
 
         print("min_distance", min_distance)
         # Output the identified speaker and the time range they were speaking, if a match is found
-        if min_distance < threshold:
+        if min_distance is not float('inf') and min_distance < threshold:
             print("min_distance < threshold")
             return True
 
