@@ -58,7 +58,7 @@ def verify_token(token):
         return False
 
 @app.route("/voice/register", methods=['POST'])
-def generate():
+def generateVoice():
     global fingerprinter, converter
     if request.method == 'POST':
 
@@ -84,7 +84,7 @@ def generate():
         return {"embeddings": encoded_string}
 
 @app.route("/voice/compare", methods=['POST'])
-def compare():
+def compareVoice():
     global fingerprinter, converter
     if request.method == 'POST':
 
@@ -122,18 +122,6 @@ def compare():
 
         return {"authenticated": response['is_match']}
 
-    # sarah1 = fingerprinter.generate_fingerprint("/Users/davidbelle/Projects/uni/my-voice-confirms/sarah1.wav")
-    # dave4 = fingerprinter.generate_fingerprint("/Users/davidbelle/Projects/uni/my-voice-confirms/dave4.wav")
-    #
-    # matches = [
-    #     fingerprinter.compare_audio(sarah1, "/Users/davidbelle/Projects/uni/my-voice-confirms/sarah2.wav"),
-    #     fingerprinter.compare_audio(dave4, "/Users/davidbelle/Projects/uni/my-voice-confirms/dave5.wav"),
-    #     fingerprinter.compare_audio(dave4, "/Users/davidbelle/Projects/uni/my-voice-confirms/sarah2.wav"),
-    #     fingerprinter.compare_audio(sarah1, "/Users/davidbelle/Projects/uni/my-voice-confirms/dave5.wav")]
-    #
-    # print(matches)  # Expected: [True, True, False, False]
-
-
 def get_cmd_args():
     port = 8080
     prevarg = ''
@@ -155,22 +143,4 @@ if __name__ == '__main__':
     converter = AudioConversion()
     args = get_cmd_args()
     app.run(host='0.0.0.0', port=args['port'])
-
-
-
-    # file_path='/Users/davidbelle/Projects/uni/my-voice-confirms/sarah1.wav'
-    # fingerprinter = VoiceFingerprinter(os.getenv("HUGGING_FACE_API_KEY"))
-    # with open(file_path, 'rb') as wav_file:
-    #     wav_bytes = wav_file.read()
-    #     base64_string = base64.b64encode(wav_bytes).decode('utf-8')
-    #
-    # sarahs_prints = fingerprinter.generate_fingerprint(base64_string)
-    #
-    # file_path = '/Users/davidbelle/Projects/uni/my-voice-confirms/dave4.wav'
-    # with open(file_path, 'rb') as wav_file:
-    #     wav_bytes = wav_file.read()
-    #     base64_string = base64.b64encode(wav_bytes).decode('utf-8')
-    #
-    # daves_prints = fingerprinter.generate_fingerprint(base64_string)
-
 
