@@ -120,9 +120,9 @@ def compareVoice():
         else:
             print("Not authenticated")
 
-        didspeakermatch = fingerprinter.match_audio_with_text(wav, "My voice confirms my identity")
+        # didspeakermatch = fingerprinter.match_audio_with_text(wav, "My voice confirms my identity")
 
-        return {"authenticated": response['is_match'], "wordsmatch":didspeakermatch}
+        return {"authenticated": response['is_match']}
 
 def get_cmd_args():
     port = 8080
