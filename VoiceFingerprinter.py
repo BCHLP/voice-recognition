@@ -9,7 +9,7 @@ import warnings
 import whisper
 import librosa
 
-torch.backends.nnpack.enabled = False
+
 
 class VoiceFingerprinter:
     def __init__(self, hugging_face_token=None, threshold=0.42, min_segment_length=1.0):
@@ -34,6 +34,8 @@ class VoiceFingerprinter:
         self.threshold = threshold
         self.min_segment_length = min_segment_length
         self.sample_rate = 16000  # Standard sample rate for the model
+
+        torch.backends.nnpack.enabled = False
 
     def match_audio_with_text(self, wav_buffer, text):
 
