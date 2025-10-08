@@ -9,6 +9,8 @@ import warnings
 import whisper
 import librosa
 
+torch.backends.nnpack.enabled = False
+
 class VoiceFingerprinter:
     def __init__(self, hugging_face_token=None, threshold=0.42, min_segment_length=1.0):
         """
