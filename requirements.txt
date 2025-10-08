@@ -3,7 +3,6 @@ librosa
 scikit-learn
 matplotlib
 scipy
-
 torchaudio
 pyannote.audio
 python-dotenv
@@ -11,3 +10,7 @@ flask
 PyJWT
 pydub
 pytest
+openai-whisper
+speechbrain
+gunicorn
+ffmpeg

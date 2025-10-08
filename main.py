@@ -120,7 +120,9 @@ def compareVoice():
         else:
             print("Not authenticated")
 
-        return {"authenticated": response['is_match']}
+        didspeakermatch = fingerprinter.match_audio_with_text(wav, "My voice confirms my identity")
+
+        return {"authenticated": response['is_match'], "wordsmatch":didspeakermatch}
 
 def get_cmd_args():
     port = 8080
@@ -143,4 +145,9 @@ if __name__ == '__main__':
     converter = AudioConversion()
     args = get_cmd_args()
     app.run(host='0.0.0.0', port=args['port'])
+
+if __name__ == 'main':
+    load_dotenv()  # Load environment variables from .env file
+    fingerprinter = VoiceFingerprinter(os.getenv("HUGGING_FACE_API_KEY"))
+    converter = AudioConversion()
 

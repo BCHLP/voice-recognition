@@ -6,7 +6,8 @@ import numpy as np
 from scipy.spatial.distance import cdist
 from scipy import stats
 import warnings
-
+import whisper
+import librosa
 
 class VoiceFingerprinter:
     def __init__(self, hugging_face_token=None, threshold=0.42, min_segment_length=1.0):
@@ -31,6 +32,15 @@ class VoiceFingerprinter:
         self.threshold = threshold
         self.min_segment_length = min_segment_length
         self.sample_rate = 16000  # Standard sample rate for the model
+
+    def match_audio_with_text(self, wav_buffer, text):
+
+        model = whisper.load_model("medium")
+
+        audio_np, sr = librosa.load(io.BytesIO(wav_buffer), sr=16000, mono=True)
+
+        result = model.transcribe(audio_np, language='en')
+        print(result["text"])
 
     def _preprocess_audio(self, waveform, sample_rate):
         """
