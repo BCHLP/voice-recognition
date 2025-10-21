@@ -263,7 +263,7 @@ If running on limited hardware:
 ## Project Structure
 
 ```
-ai/
+voice-recognition/
 ├── main.py                 # Flask application and API endpoints
 ├── VoiceFingerprinter.py   # Core voice fingerprinting logic
 ├── AudioConversion.py      # Audio format conversion utilities
